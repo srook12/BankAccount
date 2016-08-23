@@ -9,40 +9,39 @@ public class SavingsAccount extends Account {
 	public int numWithdrawals = 0;
 	public static final int MAX_WITHDRAWALS_PER_MONTH = 6;
 	
-	public static final String INSUFFICENT_FUNDS = "Insufficient funds! You cannot withdraw $%.2f " +
-                                                   "when your checking account contains only $%.2f.\n";
 	public static final String OVER_WITHDRAWAL_LIMIT = "Error! You have made the maximum withdrawals of " +
                                                        MAX_WITHDRAWALS_PER_MONTH + " this month.\n";
 	
-	public SavingsAccount(double startingBalance, double interestRate, String description) {
-		super(startingBalance, description);
-		
+	public SavingsAccount(double interestRate) {
+		super();
 		this.interestRate = interestRate;
 	}
 	
-	public double withdraw(double amount) {
-		// Store in a temporary variable so we don't need multiple calls to getBalance();
-		double currentBalance = getBalance();
-						
-		// Do we have the funds to do the withdrawal?
-		if(amount <= currentBalance) {
-			
-			// For a savings account, the total number of withdrawals must be below a certain threshold
-			// per month
-			if(numWithdrawals <= MAX_WITHDRAWALS_PER_MONTH) {
-				setBalance(currentBalance - amount);
+	public SavingsAccount(double interestRate, String description) {
+		super(description);
+		this.interestRate = interestRate;
+	}
+	
+	public SavingsAccount(double interestRate, int id, String description) {
+		super(id, description);		
+		this.interestRate = interestRate;
+	}
+	
+	@Override
+	public double withdraw(double amount, TransactionType transactionType) {					
+		// For a savings account, the total number of withdrawals must be below a certain threshold
+		// per month
+		if(numWithdrawals <= MAX_WITHDRAWALS_PER_MONTH) {
+			double currentBalance = getBalance();
+			double amountAfter = super.withdraw(amount, transactionType);
 				
+			// Check if the withdraw was successfully executed
+			if(amountAfter < currentBalance) {
 				// Increase the number on a successful withdrawal
 				numWithdrawals++;
-				
-				// Log the transaction on a successful withdrawal
-				logTransaction(new Transaction(Transaction.TransactionType.WD, amount*-1, currentBalance, 
-						                       currentBalance - amount));	
-			} else {
-				System.out.println(OVER_WITHDRAWAL_LIMIT);
-			}				
+			} 
 		} else {
-			System.out.printf(INSUFFICENT_FUNDS, amount, currentBalance);
+			System.out.printf(OVER_WITHDRAWAL_LIMIT);
 		}
 				
 		// Return the updated balance for the account
@@ -60,7 +59,7 @@ public class SavingsAccount extends Account {
 		sb.append(super.toString());
 		sb.append(String.format("Account Type: Savings\t\t\t\t\t\t\tAccount #: %-12d\n" +
 		                        "Current Withdrawls/Max Number of Withdrawals per month: %d/%d\t\t" +
-				                "Interest Rate: %02.2f%%\n", getAccountId(), numWithdrawals, 
+				                "Interest Rate: %02.2f%%\n", getId(), numWithdrawals, 
 				                MAX_WITHDRAWALS_PER_MONTH, interestRate));
 		sb.append("---------------------------------------------------------------------------------------------------\n");
 		sb.append(getTransactionLog());

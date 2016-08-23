@@ -4,24 +4,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Transaction {	
-	// Transaction description
-	public static final String WITHDRAWAL = "Withdrawal";
-	public static final String DEPOSIT = "Deposit";
-	public static final String CHECK = "Check";
-	public static final String TRANS = "Transfer";
-
-	public enum TransactionType { WD (WITHDRAWAL), 
-		                          DEP (DEPOSIT),
-		                          CHK (CHECK),
-		                          TRNS (TRANS);
-		public String description;
-		
-		TransactionType(String description) { this.description = description; }
-		
-		public String getDescription() { return description; }		
-	}
-	
+public class Transaction {		
 	private String date;
 	
 	private static final String DATE_FORMAT = "MM/dd/yy @ h:mm::ss a";
@@ -32,7 +15,6 @@ public class Transaction {
 	private double amountAfter;
 	
 	private int transactionId;
-	
 	
 	// Allows for assigning unique transaction ids
 	private static final int STARTING_TRANSACTION_ID = 1;

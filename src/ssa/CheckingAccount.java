@@ -1,44 +1,49 @@
 package ssa;
 
-public class CheckingAccount extends Account {
-	public static final String INSUFFICENT_FUNDS = "Insufficient funds! You cannot withdraw $%.2f " +
-			                                       "when your checking account contains only $%.2f.\n";
+public class CheckingAccount extends Account {	
+	// What makes a checking account different from a general account
+	private CheckRegistry checkRegistry = new CheckRegistry();
 	
-	// Open the checking account with the given starting balance and description
-	public CheckingAccount(double startingBalance, String description) {
-		super(startingBalance, description);
+	private static final String CHECK_BOUNCED = "Error - the check bounced!";
+	
+	public CheckingAccount() {
+		super();
 	}
 	
-	// Allows the user to withdraw from the checking account if sufficient funds are available.
-	// If insufficient funds are available, no money is withdrawn and an error message is printed.
-	// All specific types of accounts must implement this method.
+	public CheckingAccount(String description) {
+		super(description);
+	}
 	
-	@Override
-	public double withdraw(double amount) {
-		// Store in a temporary variable so we don't need multiple calls to getBalance();
-		double currentBalance = getBalance();
+	public CheckingAccount(int id, String description) {
+		super(id, description);
+	}
+	
+	// Simulate writing a check
+	public void writeCheck(String date, String recipient, double amount, String memo) {
+		double amountBefore = getBalance();
+		double amountAfter = super.withdraw(amount, TransactionType.CHK);
 		
-		// Do we have the funds to do the withdrawal?
-		if(amount <= currentBalance) {
-			setBalance(currentBalance - amount);
-			
-			// Log the transaction on a successful withdrawal
-			logTransaction(new Transaction(Transaction.TransactionType.WD, amount*-1, currentBalance, 
-					                       currentBalance - amount));			
+		// Check to see whether the withdrawal succeeded
+		if(amountAfter < amountBefore) {		
+			// On success, add the check to the registry
+			checkRegistry.addCheck(new Check(date, recipient, amount, memo));
 		} else {
-			System.out.printf(INSUFFICENT_FUNDS, amount, currentBalance);
+			System.out.println(CHECK_BOUNCED);
 		}
-		
-		// Return the updated balance for the account
-		return getBalance();
 	}
 	
+	// Print the checks written from this account
+	public void printChecks() {
+		// Automatically calls the toString() method
+		System.out.println(checkRegistry);
+	}
+		
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append(super.toString());
-		sb.append(String.format("Account Type: Checking\t\t\t\t\t\t\tAccount #: %-12d\n", getAccountId()));
+		sb.append(String.format("Account Type: Checking\t\t\t\t\t\t\tAccount #: %-12d\n", getId()));
 		sb.append("---------------------------------------------------------------------------------------------------\n");
 		sb.append(getTransactionLog());
 		sb.append(String.format("Current balance: $%-6.2f\n", getBalance()));

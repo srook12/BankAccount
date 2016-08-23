@@ -18,7 +18,7 @@ public class Mainline {
 		                   "setting the description to \"My personal checking account\",\n" + 
 				           "and setting the initial amount to $500.00\n");
 		
-		Account checking = new CheckingAccount(500.00, "My personal checking account");		
+		Account checking = new CheckingAccount("My personal checking account");		
 		Testchecking(checking);
 		
 		System.out.println("======================================");
@@ -32,7 +32,7 @@ public class Mainline {
 				           "and setting the initial amount to $1000.00");
 		
 		// Initialize interest rate to the national average of 0.06%
-		Account savings = new SavingsAccount(1000.00, 0.06, "My personal savings account");
+		Account savings = new SavingsAccount(0.06, "My personal savings account");
 		TestSavingsAccount(savings);
 		
 		System.out.println("======================================");
@@ -52,7 +52,7 @@ public class Mainline {
 		}
 		
 		System.out.println("Transfer 100.00 from savings to checking");
-		savings.Transfer(checking, 100.00);
+		savings.transferFrom(checking, 100.00);
 		
 		System.out.println("======================================");
 		System.out.println("======================================");
@@ -66,8 +66,13 @@ public class Mainline {
 			System.out.println(account);
 		}
 		
-		//Transaction t = new Transaction(Transaction.TransactionType.DEP, 20.00, 120.00, 100.00);
-		//System.out.println(t);
+		
+		Account account1 = new Account();
+		System.out.println(account1);
+		
+		//Check check = new Check(1, "08/23/16", "Abc Inc.", 98989.98, "Bleh");
+				
+		//System.out.println(check);
 	}
 	
 	private static void Testchecking(Account checking) {
