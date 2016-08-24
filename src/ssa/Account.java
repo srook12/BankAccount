@@ -12,7 +12,7 @@ public class Account {
 	private double balance;
 	
 	// A list of all transactions relevant to this account
-	private TransactionLog transactionLog = new TransactionLog();
+	//private TransactionLog transactionLog = new TransactionLog();
 
 	// Allows unique account numbers to be assigned to any account
 	// nextAccountId is static so only one copy is present for ALL types of accounts
@@ -77,31 +77,34 @@ public class Account {
 	
 	// For our purposes, all accounts provide the depositing functionality by adding the money to the
 	// account - so include it in the general Account class
-	public double deposit(double amount, TransactionType transactionType) {		
+	//public double deposit(double amount, TransactionType transactionType) {		
+	public double deposit(double amount) {
 		if(amount <= 0) {
 			System.out.println(AMOUNT_BELOW_ZERO);
 		} else {
-			double currentBalance = balance;
+			//double currentBalance = balance;
 		
 			balance += amount;
 
 			// Log a deposit transaction
-			transactionLog.logTransaction(new Transaction(transactionType, amount, currentBalance, 
-					                      balance));	
+			//transactionLog.logTransaction(new Transaction(transactionType, amount, currentBalance, 
+			//		                      balance));	
 		}
 		
 		return balance;
 	}
 	
 	// For a standard deposit
+	/*
 	public double deposit(double amount) {
 		return deposit(amount, TransactionType.DEP);
-	}
+	}*/
 	
 	// Allows the user to withdraw from the checking account if sufficient funds are available.
 	// If insufficient funds are available, no money is withdrawn and an error message is printed.
 	// All specific types of accounts must implement this method.
-	public double withdraw(double amount, TransactionType transactionType) {
+	//public double withdraw(double amount, TransactionType transactionType) {
+	public double withdraw(double amount) {
 		// Store in a temporary variable for later reference
 		double currentBalance = balance;
 				
@@ -112,8 +115,8 @@ public class Account {
 			balance -= amount;
 					
 			// Log the transaction on a successful withdrawal
-			transactionLog.logTransaction(new Transaction(transactionType, amount*-1, 
-							              currentBalance, balance));			
+			//transactionLog.logTransaction(new Transaction(transactionType, amount*-1, 
+			//				              currentBalance, balance));			
 		} else {
 			System.out.printf(INSUFFICENT_FUNDS, amount, currentBalance);
 		}
@@ -123,9 +126,10 @@ public class Account {
 	}
 	
 	// Basic withdrawal
+	/*
 	public double withdraw(double amount) {
 		return withdraw(amount, TransactionType.WD);
-	}
+	}*/
 	
 	public double getBalance() {
 		return balance;
@@ -139,10 +143,10 @@ public class Account {
 	private void setBalance(double balance) {
 		this.balance = balance;
 	} */
-	
+	/*
 	public TransactionLog getTransactionLog() {
 		return transactionLog;
-	}
+	}*/
 	
 	// This method will transfer the amount from the calling account to accountTo. If the withdrawal violates
 	// the rules of the calling account, the transfer will fail.
@@ -153,12 +157,14 @@ public class Account {
 			// this represents the calling account
 			double amountBeforeTransfer = fromAccount.getBalance();
 		
-			double amountAfterTransfer = fromAccount.withdraw(amount, TransactionType.TRNS);
-		
+			//double amountAfterTransfer = fromAccount.withdraw(amount, TransactionType.TRNS);
+			double amountAfterTransfer = fromAccount.withdraw(amount);
+			
 			// If the withdrawal succeeds, then the balance changed
 			if(amountAfterTransfer < amountBeforeTransfer) {	
 				// Deposit the amount
-				this.deposit(amount, TransactionType.TRNS);
+				//this.deposit(amount, TransactionType.TRNS);
+				this.deposit(amount);
 			}		
 			// If here, the transfer failed
 			else {
