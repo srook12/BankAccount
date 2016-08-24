@@ -1,6 +1,6 @@
 package ssa;
 
-public class SavingsAccount extends Account {
+public class SavingsAccount extends TransactionAccount {
 	// Expressed as a percentage - any calculations done would need to first convert
 	// this to its decimal value
 	private double interestRate = 0.0;
@@ -62,7 +62,7 @@ public class SavingsAccount extends Account {
 				                "Interest Rate: %02.2f%%\n", getId(), numWithdrawals, 
 				                MAX_WITHDRAWALS_PER_MONTH, interestRate));
 		sb.append("---------------------------------------------------------------------------------------------------\n");
-		sb.append(getTransactionLog());
+		sb.append(getTransactionLog().printLog(getId()));
 		sb.append(String.format("Current balance: $%-6.2f\n", getBalance()));
 		sb.append("==================================================================");
 		

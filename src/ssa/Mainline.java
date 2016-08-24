@@ -52,7 +52,7 @@ public class Mainline {
 		}
 		
 		System.out.println("Transfer 100.00 from savings to checking");
-		savings.transferFrom(checking, 100.00);
+		checking.transferFrom(savings, 100.00);
 		
 		System.out.println("======================================");
 		System.out.println("======================================");

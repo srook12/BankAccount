@@ -1,6 +1,6 @@
 package ssa;
 
-public class CheckingAccount extends Account {	
+public class CheckingAccount extends TransactionAccount {	
 	// What makes a checking account different from a general account
 	private CheckRegistry checkRegistry = new CheckRegistry();
 	
@@ -45,7 +45,7 @@ public class CheckingAccount extends Account {
 		sb.append(super.toString());
 		sb.append(String.format("Account Type: Checking\t\t\t\t\t\t\tAccount #: %-12d\n", getId()));
 		sb.append("---------------------------------------------------------------------------------------------------\n");
-		sb.append(getTransactionLog());
+		sb.append(getTransactionLog().printLog(getId()));
 		sb.append(String.format("Current balance: $%-6.2f\n", getBalance()));
 		sb.append("==================================================================");
 		

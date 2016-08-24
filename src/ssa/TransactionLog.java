@@ -12,15 +12,17 @@ public class TransactionLog {
 	}
 		
 	// Writes the transaction log to a string and returns it
-	public String toString() {
+	public String printLog(int accountId) {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append(String.format("%-5s %-40s %-15s %-15s %15s\n", "Id", "Date & Time", "Description",
 					            "Amount", "Balance"));
 		sb.append("---------------------------------------------------------------------------------------------------\n");
 		for(Transaction transaction : transactionLog) {
-			// Will automatically call the toString method of transaction
-			sb.append(transaction).append("\n");
+			if(transaction.getAccountId() == accountId) {
+				// Will automatically call the toString method of transaction
+				sb.append(transaction).append("\n");
+			}
 		}
 			
 		return sb.toString();

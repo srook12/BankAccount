@@ -57,9 +57,9 @@ public class Mainline2 {
 		System.out.printf("Total all accounts is %.2f\n", checking1.getBalance() + checking2.getBalance() + savings3.getBalance());
 
 
-		System.out.println(checking1);
-		System.out.println(checking2);
-		System.out.println(savings3);
+		//System.out.println(checking1);
+		//System.out.println(checking2);
+		//System.out.println(savings3);
 	}
 
 }

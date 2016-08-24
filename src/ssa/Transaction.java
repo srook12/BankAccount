@@ -15,14 +15,17 @@ public class Transaction {
 	private double amountAfter;
 	
 	private int transactionId;
+	private int accountId;
 	
 	// Allows for assigning unique transaction ids
 	private static final int STARTING_TRANSACTION_ID = 1;
 	private static int nextTransactionId = STARTING_TRANSACTION_ID; 
 	
-	public Transaction(TransactionType transType, double amount, double amountBefore, double amountAfter) {
+	public Transaction(int accountId, TransactionType transType, double amount, 
+			double amountBefore, double amountAfter) {
 		SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
 		
+		this.accountId = accountId;
 		this.date = dateFormatter.format(new Date());
 		this.transType = transType;
 		this.amount = amount;
@@ -31,6 +34,10 @@ public class Transaction {
 		
 		transactionId = nextTransactionId;
 		nextTransactionId++;
+	}
+	
+	public int getAccountId() {
+		return accountId;
 	}
 	
 	public String toString() {
