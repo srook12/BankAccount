@@ -15,28 +15,28 @@ public class Savings extends Account {
 			"minimum of $%.2f to earn interest.";
 	public static final String TOTAL_INT_MESS = " and has earned total interest of %s";
 	
-	Savings() {
+	public Savings() {
 		super();
 	}
 	
-	Savings(double interestRate) {
+	public Savings(double interestRate) {
 		setInterestRate(interestRate);
 	}
 	
-	Savings(String description) {
+	public Savings(String description) {
 		this(description, DEFAULT_INTEREST_RATE);
 	}
 	
-	Savings(String description, double interestRate) {
+	public Savings(String description, double interestRate) {
 		super(description);
 		setInterestRate(interestRate);
 	}
 	
-	Savings(int id, String description) {
+	public Savings(int id, String description) {
 		this(id, description, DEFAULT_INTEREST_RATE);
 	}
 	
-	Savings(int id, String description, double interestRate) {
+	public Savings(int id, String description, double interestRate) {
 		super(id, description);
 		setInterestRate(interestRate);
 	}
@@ -46,7 +46,9 @@ public class Savings extends Account {
 	}
 
 	public void setMinBalanceForInt(double minBalanceForInt) {
-		this.minBalanceForInt = minBalanceForInt;
+		if(minBalanceForInt > 0) {
+			this.minBalanceForInt = minBalanceForInt;
+		}
 	}
 	
 	public double getTotalInterestEarned() {
@@ -64,7 +66,9 @@ public class Savings extends Account {
 	}
 
 	public void setInterestRate(double interestRate) {
-		this.interestRate = interestRate;
+		if(interestRate > 0) {
+			this.interestRate = interestRate;
+		}
 	}
 	
 	// Calculate the interest and deposit it
@@ -73,8 +77,8 @@ public class Savings extends Account {
 		
 		if(getBalance() > minBalanceForInt) {
 			if(months > 0) {
-				interestEarned = (getInterestRate(false) / INTEREST_PERIOD) * 
-						months * getBalance(); 
+				interestEarned = Double.parseDouble(String.format("%.2f", (getInterestRate(false) / INTEREST_PERIOD) * 
+						months * getBalance())); 		
 				deposit(interestEarned);
 				totalInterestEarned += interestEarned;
 			} else {
